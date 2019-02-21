@@ -125,8 +125,10 @@ html, body {
 #musicButton {
   background-color: black;
   border-radius: 99px;
+  border: 0;
   height: 200px;
   width: 200px;
+  outline: none;
 }
 
 
