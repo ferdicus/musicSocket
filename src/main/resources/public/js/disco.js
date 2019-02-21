@@ -15,8 +15,8 @@ connection.onmessage = e => {
   const currentBandMembers = JSON.parse(e.data)
   console.log('--- connection onmessage: ', e.data);
 
-  $.each(memberTiles, (index, tile) => {
-    tile.css({'backgroundColor': currentBandMembers[index].color})
-    if (currentBandMembers[index].playing) tile.text('♫');
+  $.each(memberTiles, index => {
+    $(this).css({'backgroundColor': currentBandMembers[index].color})
+    if (currentBandMembers[index].playing) $(this).text('♫');
   });
 };
