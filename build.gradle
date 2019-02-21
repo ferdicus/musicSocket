@@ -15,6 +15,10 @@ repositories {
 
 dependencies {
     implementation 'io.javalin:javalin:2.6.0'
+    //implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
+    //implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    
     implementation 'org.slf4j:slf4j-simple:1.7.25'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
