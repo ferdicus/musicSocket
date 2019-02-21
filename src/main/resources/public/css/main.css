@@ -97,10 +97,26 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-body {
-  background-color: red;
+html, body {
+  height: 100%;
 }
 
+#musicButton {
+  background-color: black;
+  border-radius: 99px;
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+#musicButton:active {
+  background-color: cyan;
+}
 
 
 
