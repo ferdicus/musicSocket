@@ -2,6 +2,7 @@ const url = `ws://${window.location.host}/midi`
 
 const connection = new WebSocket(url);
 let bandMember;
+let note = '60';
 
 connection.onopen = () => {
   console.log('--- connection onopen');
@@ -17,11 +18,20 @@ connection.onmessage = e => {
 }
 
 $('#musicButton').on("touchstart", () => {
-  connection.send(JSON.stringify({ pressed: true }));
+  connection.send(JSON.stringify({
+    pressed: true, note
+  }));
 });
 
 $('#musicButton').on("touchend", () => {
-  connection.send(JSON.stringify({ pressed: false }));
+  connection.send(JSON.stringify({
+    pressed: false, note
+  }));
+});
+
+
+$('#note').on('change', e => {
+  note = e.target.value;
 });
 
 const setUpBandMember = bandMember => {
