@@ -1,4 +1,4 @@
-package com.ioki.midiserver
+package com.ioki.midiserver.utils
 
 fun generateName(): String {
     return adjectives.random().capitalize() + " " + animals.random().capitalize()
