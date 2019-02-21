@@ -79,6 +79,7 @@ fun main() {
         .ws("/disco") { webSocket ->
             webSocket.onConnect { session ->
                 DISCO_MEMBERS.add(session)
+                DISCO_SUBJECT.onNext(GSON.toJson(BAND_MEMBERS.values))
             }
 
             webSocket.onClose { session, statusCode, reason ->
