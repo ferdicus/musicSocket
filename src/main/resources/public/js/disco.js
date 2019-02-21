@@ -12,7 +12,7 @@ connection.onerror = err => {
 };
 
 connection.onmessage = e => {
-  const currentBandMembers = JSON.parse(e.data)
+  const currentBandMembers = e.data
   console.log('--- connection onmessage: ', e.data);
 
   $.each(memberTiles, index => {
