@@ -16,12 +16,12 @@ connection.onmessage = e => {
   setUpBandMember(JSON.parse(e.data));
 }
 
-$('#musicButton').on("mousedown touchstart", () => {
+$('#musicButton').on("touchstart", () => {
   console.log('>>> mousedown touchstart')
   connection.send(JSON.stringify({ pressed: true }));
 });
 
-$('#musicButton').on("mouseup touchend", () => {
+$('#musicButton').on("touchend", () => {
   console.log('>>> mouseup touchend')
   connection.send(JSON.stringify({ pressed: false }));
 });
