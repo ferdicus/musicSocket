@@ -102,6 +102,7 @@ html, body {
 }
 
 #musicButton {
+  display: none;
   background-color: black;
   border-radius: 99px;
   height: 200px;
