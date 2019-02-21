@@ -13,7 +13,7 @@ connection.onerror = err => {
 
 connection.onmessage = e => {
   console.log('--- connection onmessage: ', e.data)
-  setUpBandmember(JSON.parse(e.data));
+  setUpBandMember(JSON.parse(e.data));
 }
 
 $('#musicButton').on("mousedown touchstart", () => {
