@@ -29,7 +29,7 @@ $('#musicButton').on("touchend", () => {
   }));
 });
 
-
+$("#note").attr("value", note);
 $('#note').on('change', e => {
   note = e.target.value;
 });
@@ -37,8 +37,10 @@ $('#note').on('change', e => {
 const setUpBandMember = bandMember => {
   const mB = $('#musicButton');
   const name = $('#name');
+  const container = $('#container');
+
+  container.fadeIn();
   mB.css({'backgroundColor': bandMember.color});
   name.text(bandMember.name);
-  mB.fadeIn();
-  name.fadeIn();
+  container.fadeIn();
 }
