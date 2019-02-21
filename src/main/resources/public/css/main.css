@@ -103,28 +103,32 @@ html, body {
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
   user-select: none;          /* Likely future */
+  touch-action: manipulation;
 }
 
-#musicButton {
-  display: none;
-  background-color: black;
-  border-radius: 99px;
-  height: 200px;
-  width: 200px;
+#name, #note {
+  margin-bottom: 30px;
+}
+
+#container {
   position: absolute;
   top:0;
   bottom: 0;
   left: 0;
   right: 0;
   margin: auto;
-  touch-action: manipulation;
+  height: 500px;
+  width: 500px;
+  text-align: center;
+  display: none;
 }
 
-#musicButton:active {
-  background-color: cyan;
+#musicButton {
+  background-color: black;
+  border-radius: 99px;
+  height: 200px;
+  width: 200px;
 }
-
-
 
 
 
