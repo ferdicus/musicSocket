@@ -5,7 +5,7 @@ val colors = arrayOf(
     "green",
     "blue",
     "orange",
-    "white",
+    "salmon",
     "black",
     "firebrick",
     "aqua",
