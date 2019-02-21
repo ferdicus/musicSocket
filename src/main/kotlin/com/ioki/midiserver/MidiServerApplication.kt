@@ -18,6 +18,8 @@ val LOGGER = LoggerFactory.getLogger("com.ioki.MidiServerApplication")
 val SYNTH = MidiSystem.getSynthesizer().also(Synthesizer::open)
 val INSTRUMENTS = SYNTH.availableInstruments
 val CHANNELS = SYNTH.channels
+val CHANNEL_MANAGER = ChannelManager()
+val COLOR_NAME_PROVIDER = ColorManager()
 
 val BAND_MEMBERS = ConcurrentHashMap<String, BandMember>()
 val DISCO_MEMBERS = ConcurrentHashMap.newKeySet<WsSession>()
@@ -46,8 +48,8 @@ fun main() {
                     generateName(),
                     randomInstrumentId,
                     INSTRUMENTS[randomInstrumentId].name,
-                    getAvailableChannel(),
-                    getColorName(),
+                    CHANNEL_MANAGER.getAvailableChannel(),
+                    COLOR_NAME_PROVIDER.getColor(),
                     session
                 )
                 BAND_MEMBERS[session.id] = bandMember
@@ -64,7 +66,7 @@ fun main() {
                 BAND_MEMBERS[session.id]?.let { bandMember ->
                     SYNTH.unloadInstrument(INSTRUMENTS[bandMember.instrument])
                     BAND_MEMBERS.remove(session.id)
-                    releaseChannel(bandMember.channel)
+                    CHANNEL_MANAGER.releaseChannel(bandMember.channel)
                     LOGGER.info("${bandMember.name} disconnected")
                 }
             }
