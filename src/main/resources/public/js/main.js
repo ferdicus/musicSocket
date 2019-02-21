@@ -28,6 +28,6 @@ $('#musicButton').on("mouseup touchend", () => {
 
 const setUpBandMember = bandMember => {
   const mB = $('#musicButton');
-  mB.css('background-color': bandMember.color);
+  mB.css({'backgroundColor': bandMember.color});
   mB.fadeIn();
 }
