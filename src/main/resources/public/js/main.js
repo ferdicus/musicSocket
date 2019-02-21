@@ -17,12 +17,10 @@ connection.onmessage = e => {
 }
 
 $('#musicButton').on("touchstart", () => {
-  console.log('>>> mousedown touchstart')
   connection.send(JSON.stringify({ pressed: true }));
 });
 
 $('#musicButton').on("touchend", () => {
-  console.log('>>> mouseup touchend')
   connection.send(JSON.stringify({ pressed: false }));
 });
 
