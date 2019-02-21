@@ -10,5 +10,6 @@ data class BandMember(
     val instrumentName: String,
     val channel: Int,
     val color: String,
-    @Transient val session: WsSession
+    @Transient val session: WsSession,
+    var playing: Boolean = false
 )

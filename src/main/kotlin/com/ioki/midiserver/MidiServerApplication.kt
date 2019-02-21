@@ -5,7 +5,11 @@ import com.ioki.midiserver.model.BandMember
 import com.ioki.midiserver.model.PlayRequest
 import io.javalin.Javalin
 import io.javalin.websocket.WsSession
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import org.slf4j.LoggerFactory
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ThreadLocalRandom
 import javax.sound.midi.MidiSystem
 import javax.sound.midi.Synthesizer
@@ -15,8 +19,21 @@ val SYNTH = MidiSystem.getSynthesizer().also(Synthesizer::open)
 val INSTRUMENTS = SYNTH.availableInstruments
 val CHANNELS = SYNTH.channels
 
-val CLIENTS = mutableMapOf<String, BandMember>()
+val BAND_MEMBERS = ConcurrentHashMap<String, BandMember>()
+val DISCO_MEMBERS = ConcurrentHashMap.newKeySet<WsSession>()
 val GSON = GsonBuilder().create()
+
+val DISCO_SUBJECT = PublishSubject.create<String>()
+
+val DISCO_DISPOSABLE = DISCO_SUBJECT
+    .observeOn(Schedulers.io())
+    .flatMap { message ->
+        Observable.fromIterable(DISCO_MEMBERS)
+            .map { user -> user to message }
+    }
+    .subscribe { (user, message) ->
+        user.send(message)
+    }
 
 fun main() {
     Javalin.create()
@@ -33,7 +50,7 @@ fun main() {
                     getColorName(),
                     session
                 )
-                CLIENTS[session.id] = bandMember
+                BAND_MEMBERS[session.id] = bandMember
                 SYNTH.loadInstrument(INSTRUMENTS[bandMember.instrument])
                 session.send(GSON.toJson(bandMember))
                 LOGGER.info(
@@ -43,15 +60,25 @@ fun main() {
                 )
             }
 
+            webSocket.onClose { session, statusCode, reason ->
+                val bandMember = BAND_MEMBERS[session.id]!!
+                SYNTH.unloadInstrument(INSTRUMENTS[bandMember.instrument])
+                BAND_MEMBERS.remove(session.id)
+                LOGGER.info("${bandMember.name} disconnected")
+            }
+
             webSocket.onMessage { session, msg ->
                 handleMessage(session, msg)
             }
 
+        }
+        .ws("/disco") { webSocket ->
+            webSocket.onConnect { session ->
+                DISCO_MEMBERS.add(session)
+            }
+
             webSocket.onClose { session, statusCode, reason ->
-                val bandMember = CLIENTS[session.id]!!
-                SYNTH.unloadInstrument(INSTRUMENTS[bandMember.instrument])
-                CLIENTS.remove(session.id)
-                LOGGER.info("${bandMember.name} disconnected")
+                DISCO_MEMBERS.remove(session)
             }
         }
         .start(8080)
@@ -59,11 +86,15 @@ fun main() {
 
 fun handleMessage(session: WsSession, msg: String) {
     val playRequest = GSON.fromJson(msg, PlayRequest::class.java)
-    CLIENTS[session.id]?.let {
+    BAND_MEMBERS[session.id]?.let {
+        it.playing = playRequest.shouldPlay
+
         if (playRequest.shouldPlay) {
             playSound(it, playRequest.note)
+            DISCO_SUBJECT.onNext(GSON.toJson(BAND_MEMBERS.values))
         } else {
             stopSound(it, playRequest.note)
+            DISCO_SUBJECT.onNext(GSON.toJson(BAND_MEMBERS.values))
         }
     }
 }
