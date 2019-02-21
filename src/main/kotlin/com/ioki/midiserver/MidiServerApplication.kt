@@ -57,6 +57,7 @@ fun main() {
                 )
                 BAND_MEMBERS[session.id] = bandMember
                 SYNTH.loadInstrument(INSTRUMENTS[bandMember.instrument])
+                DISCO_SUBJECT.onNext(GSON.toJson(BAND_MEMBERS.values))
                 session.send(GSON.toJson(bandMember))
                 LOGGER.info(
                     "User ${bandMember.name} connected. " +
@@ -68,6 +69,7 @@ fun main() {
             webSocket.onClose { session, statusCode, reason ->
                 BAND_MEMBERS[session.id]?.let { bandMember ->
                     SYNTH.unloadInstrument(INSTRUMENTS[bandMember.instrument])
+                    DISCO_SUBJECT.onNext(GSON.toJson(BAND_MEMBERS.values))
                     BAND_MEMBERS.remove(session.id)
                     CHANNEL_MANAGER.releaseChannel(bandMember.channel)
                     LOGGER.info("${bandMember.name} disconnected")
