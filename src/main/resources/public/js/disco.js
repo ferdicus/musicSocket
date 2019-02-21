@@ -18,6 +18,6 @@ connection.onmessage = e => {
   $.each(memberTiles, (index, tile) => {
     if (!currentBandMembers[index]) return false;
     $(tile).css({'backgroundColor': currentBandMembers[index].color})
-    if (currentBandMembers[index].playing) $(tile).text('♫');
+    currentBandMembers[index].playing ? $(tile).text('♫') : $(tile).text('');
   });
 };
