@@ -37,10 +37,13 @@ $('#note').on('change', e => {
 const setUpBandMember = bandMember => {
   const mB = $('#musicButton');
   const name = $('#name');
+  const instrument = $('#instrument');
+
   const container = $('#container');
 
   container.fadeIn();
   mB.css({'backgroundColor': bandMember.color});
-  name.text(bandMember.name);
+  name.text(`You are: ${bandMember.name}`);
+  instrument.text(`You play: ${bandMember.instrumentName}`);
   container.fadeIn();
 }
