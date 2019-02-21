@@ -115,6 +115,9 @@ textarea {
   align-items: center;
   justify-content: center;
   height: auto;
+  font-size: 60px;
+  color: white;
+  text-shadow: 1px 1px 10px black;
 
   /* Flex Fallback */
   margin-left: 5px;
