@@ -72,6 +72,7 @@ fun main() {
                     DISCO_SUBJECT.onNext(GSON.toJson(BAND_MEMBERS.values))
                     BAND_MEMBERS.remove(session.id)
                     CHANNEL_MANAGER.releaseChannel(bandMember.channel)
+                    COLOR_NAME_PROVIDER.releaseColor(bandMember.color)
                     LOGGER.info("${bandMember.name} disconnected")
                 }
             }
