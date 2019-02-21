@@ -3,6 +3,8 @@ package com.ioki.midiserver
 import com.google.gson.GsonBuilder
 import com.ioki.midiserver.model.BandMember
 import com.ioki.midiserver.model.PlayRequest
+import com.ioki.midiserver.model.getAvailableChannel
+import com.ioki.midiserver.model.releaseChannel
 import io.javalin.Javalin
 import io.javalin.websocket.WsSession
 import io.reactivex.Observable
@@ -46,7 +48,7 @@ fun main() {
                     generateName(),
                     randomInstrumentId,
                     INSTRUMENTS[randomInstrumentId].name,
-                    ThreadLocalRandom.current().nextInt(0, CHANNELS.size),
+                    getAvailableChannel(),
                     getColorName(),
                     session
                 )
@@ -61,10 +63,12 @@ fun main() {
             }
 
             webSocket.onClose { session, statusCode, reason ->
-                val bandMember = BAND_MEMBERS[session.id]!!
-                SYNTH.unloadInstrument(INSTRUMENTS[bandMember.instrument])
-                BAND_MEMBERS.remove(session.id)
-                LOGGER.info("${bandMember.name} disconnected")
+                BAND_MEMBERS[session.id]?.let { bandMember ->
+                    SYNTH.unloadInstrument(INSTRUMENTS[bandMember.instrument])
+                    BAND_MEMBERS.remove(session.id)
+                    releaseChannel(bandMember.channel)
+                    LOGGER.info("${bandMember.name} disconnected")
+                }
             }
 
             webSocket.onMessage { session, msg ->
