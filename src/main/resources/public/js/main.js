@@ -26,6 +26,9 @@ $('#musicButton').on("touchend", () => {
 
 const setUpBandMember = bandMember => {
   const mB = $('#musicButton');
+  const name = $('#name');
   mB.css({'backgroundColor': bandMember.color});
+  name.text(bandMember.name);
   mB.fadeIn();
+  name.fadeIn();
 }
