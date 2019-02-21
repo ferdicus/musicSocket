@@ -1,7 +1,7 @@
 package com.ioki.midiserver
 
 fun generateName(): String {
-    return adjectives.random() + " " + animals.random()
+    return adjectives.random().capitalize() + " " + animals.random().capitalize()
 }
 
 val adjectives = arrayOf(

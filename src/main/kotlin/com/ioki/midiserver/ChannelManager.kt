@@ -1,4 +1,4 @@
-package com.ioki.midiserver.model
+package com.ioki.midiserver
 
 import java.util.concurrent.ConcurrentHashMap
 

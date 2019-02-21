@@ -3,8 +3,6 @@ package com.ioki.midiserver
 import com.google.gson.GsonBuilder
 import com.ioki.midiserver.model.BandMember
 import com.ioki.midiserver.model.PlayRequest
-import com.ioki.midiserver.model.getAvailableChannel
-import com.ioki.midiserver.model.releaseChannel
 import io.javalin.Javalin
 import io.javalin.websocket.WsSession
 import io.reactivex.Observable
