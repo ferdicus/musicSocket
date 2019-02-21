@@ -1,4 +1,4 @@
-const url = `wss://${window.location}/midi`
+const url = `wss://${window.location.host}/midi`
 
 console.log('url', url)
 
