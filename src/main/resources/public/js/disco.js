@@ -17,6 +17,6 @@ connection.onmessage = e => {
 
   $.each(memberTiles, (index, tile) => {
     tile.css({'backgroundColor': currentBandMembers[index].color})
-    if (currentBandMembers[index].playing) tile.text(♫);
+    if (currentBandMembers[index].playing) tile.text('♫');
   });
 };
